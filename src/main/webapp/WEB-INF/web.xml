@@ -3,5 +3,114 @@
 	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	id="WebApp_ID" version="3.1">
-  <display-name>Archetype Created Web Application</display-name>
+	<display-name>Platform</display-name>
+
+	<!-- spring -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- log4j2 -->
+	<listener>
+		<listener-class>org.apache.logging.log4j.web.Log4jServletContextListener</listener-class>
+	</listener>
+
+	<!-- Log4j2过滤器 -->
+	<filter>
+		<filter-name>log4jServletFilter</filter-name>
+		<filter-class>org.apache.logging.log4j.web.Log4jServletFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>log4jServletFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+	</filter-mapping>
+
+	<!-- 环境参数 -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+        /WEB-INF/config/spring-context.xml
+        </param-value>
+	</context-param>
+	<context-param>
+		<!-- 日志配置文件路径 -->
+		<param-name>log4jConfiguration</param-name>
+		<param-value>classpath:log4j2.xml</param-value>
+	</context-param>
+	
+	
+	<!-- Spring 编码过滤器 start -->
+	<filter>
+		<filter-name>characterEncoding</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>characterEncoding</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- Spring 编码过滤器 End -->
+
+
+	<!-- spring mvc restful -->
+	<servlet>
+		<servlet-name>spring-servlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>
+                /WEB-INF/config/spring-context.xml
+            </param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>spring-servlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+
+	<!-- 隐藏的HttpMethod方法过滤器，表单提交中需要携带一个name=_method的隐藏域，value=put或者delete -->
+	<!-- 解决浏览器不支持PUT和DELETE方法 -->
+	<filter>
+		<filter-name>HiddenHttpMethodFilter</filter-name>
+		<filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>HiddenHttpMethodFilter</filter-name>
+		<servlet-name>SpringMVC</servlet-name>
+	</filter-mapping>
+
+
+	<!-- 解决PUT获取不到参数 -->
+	<filter>
+		<filter-name>httpPutFormContentFilter</filter-name>
+		<filter-class>org.springframework.web.filter.HttpPutFormContentFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>httpPutFormContentFilter</filter-name>
+		<servlet-name>spring-servlet</servlet-name>
+	</filter-mapping>
+
+	<!-- Session 过期时间 -->
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+
+
+	<!-- 首页 -->
+	<welcome-file-list>
+		<welcome-file>views/default</welcome-file>
+	</welcome-file-list>
 </web-app>

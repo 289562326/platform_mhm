@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-4.2.xsd
+    http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+	http://www.springframework.org/schema/cache
+	http://www.springframework.org/schema/cache/spring-cache-4.2.xsd">
+
+	<!-- 配置包扫描，就可以不用了 -->
+	<!-- <context:annotation-config /> -->
+	<!-- 注解扫描 -->
+	<context:component-scan base-package="com.mhm.web" />
+
+	<!-- 默认页面跳转 -->
+	<mvc:view-controller path="/" view-name="redirect:/views/default" />
+
+	<!-- 静态资源配置，拦截器不拦截静态资源 -->
+	<mvc:default-servlet-handler
+		default-servlet-name="default" />
+
+	<!-- 静态资源映射，静态资源存放WEB-INF下，避免页面使用restful风格时死循环 -->
+	<!-- 静态资源文件，不会被Spring MVC拦截 -->
+	<mvc:resources location="/main/" mapping="/views/**" />
+
+	<mvc:annotation-driven>
+		<mvc:path-matching suffix-pattern="false"
+			registered-suffixes-only="true" />
+		<mvc:message-converters register-defaults="true">
+			<!-- 避免返回String乱码 -->
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>text/plain;charset=UTF-8</value>
+						<value>text/html;charset=UTF-8</value>
+					</list>
+				</property>
+			</bean>
+			<bean id="fastJsonHttpMessageConverter"
+				class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter4">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>text/html;charset=UTF-8</value>
+						<value>application/json;charset=UTF-8</value>
+					</list>
+				</property>
+				<property name="fastJsonConfig">
+					<bean class="com.alibaba.fastjson.support.config.FastJsonConfig">
+						<property name="features">
+							<list>
+								<value>AllowArbitraryCommas</value>
+								<value>AllowUnQuotedFieldNames</value>
+								<value>DisableCircularReferenceDetect</value>
+							</list>
+						</property>
+						<property name="dateFormat" value="yyyy-MM-dd HH:mm:ss"></property>
+					</bean>
+				</property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+
+
+	<!-- Spring注册拦截器 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<!-- 匹配url路径， 如果不配置或/**,将拦截所有的Controller -->
+			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="/resources/**" />
+			<mvc:exclude-mapping path="/main/uscc/**" />
+			<mvc:exclude-mapping path="/lang/**" />
+			<mvc:exclude-mapping path="/**/js/**" />
+			<mvc:exclude-mapping path="/**/css/**" />
+			<mvc:exclude-mapping path="/**/*.xml" />
+			<mvc:exclude-mapping path="/**/bootstrap/**" />
+			<mvc:exclude-mapping path="/**/plugins/**" />
+			<mvc:exclude-mapping path="/**/404" />
+			<mvc:exclude-mapping path="/**/500" />
+			<mvc:exclude-mapping path="/**/error" />
+			<mvc:exclude-mapping path="/webcontent/**" />
+			<bean class="com.mhm.framework.interceptors.SessionInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+
+	<!-- html视图配置, 不配后缀，后面统一处理，同时兼容jsp -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/main/" />
+		<property name="contentType" value="text/html;charset=UTF-8" />
+		<property name="alwaysInclude" value="false" />
+		<property name="order" value="1" />
+	</bean>
+
+
+	<!-- 文件上传 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- <property name="maxUploadSize" value="30000" /> -->
+	</bean>
+	<!-- 自定义错误信息显示 -->
+	<!-- <bean id="exceptionResolver" class="com.znv.mhm.common.error.ServiceExceptionHandler" 
+		/> -->
+
+</beans>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="error" monitorInterval="30">
+    <appenders>
+        <Console name="stdout" target="SYSTEM_OUT">
+            <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
+            <!--trace<debug<info<warn<error<fatal %d 时间  %p 级别  %f 类名 %l 所在的行数 %m 日志信息 %t 线程名 %r 耗时 -->
+            <PatternLayout pattern="[%X{mhm}]%d{ABSOLUTE} %5p - %m - %class{36}.%M(%F:%L) [%t:%r]%n"/>
+        </Console>
+        <!--Debug 日志格式和压缩格式 -->
+        <RollingFile name="D" fileName="log/platform_mhm_log_debug.log" filePattern="log/$${date:yyyy-MM}/platform_mhm_log_debug-%d{MM-dd-yyyy}-%i.log.gz">
+            <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="%-d{yyyy-MM-dd HH:mm:ss} %5p - %m - %class{36}.%M [%t:%r]%n"/>
+            <SizeBasedTriggeringPolicy size="20 MB"/>
+        </RollingFile>
+        <!--INFO 日志配置 -->
+        <RollingFile name="I" fileName="log/platform_mhm_log_info.log" filePattern="log/$${date:yyyy-MM}/platform_mhm_log_info-%d{MM-dd-yyyy}-%i.log.gz">
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="%-d{yyyy-MM-dd HH:mm:ss} %5p - %m - %class{36}.%M [%t:%r]%n"/>
+            <SizeBasedTriggeringPolicy size="20 MB"/>
+        </RollingFile>
+        <!--ERROR 日志配置 -->
+        <RollingFile name="E" fileName="log/platform_mhm_log_error.log" filePattern="log/$${date:yyyy-MM}/platform_mhm_log_error-%d{MM-dd-yyyy}-%i.log.gz">
+            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="%-d{yyyy-MM-dd HH:mm:ss} %5p - %m - %class{36}.%M [%t:%r]%n"/>
+            <SizeBasedTriggeringPolicy size="20 MB"/>
+        </RollingFile>
+        <!--CMD 日志配置 -->
+        <RollingFile name="C" fileName="log/platform_mhm_log_cmd.log" filePattern="log/$${date:yyyy-MM}/platform_mhm_log_cmd-%d{MM-dd-yyyy}-%i.log.gz">
+            <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="%-d{yyyy-MM-dd HH:mm:ss} %5p - %m- %class{36}.%M [%t:%r]%n"/>
+            <SizeBasedTriggeringPolicy size="20 MB"/>
+        </RollingFile>
+        <!--推送告警 -->
+        <RollingFile name="PUSH" fileName="log/platform_mhm_log_callback.log" filePattern="log/$${date:yyyy-MM}/platform_mhm_log_callback-%d{MM-dd-yyyy}-%i.log.gz">
+            <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="%-d{yyyy-MM-dd HH:mm:ss} %5p - %m - %class{36}.%M [%t:%r]%n"/>
+            <SizeBasedTriggeringPolicy size="20 MB"/>
+        </RollingFile>
+    </appenders>
+    <loggers>
+        <logger name="org" level="error" additivity="false"><!-- 其他第三方包 -->
+            <appender-ref ref="E"/>
+        </logger>
+        <logger name="freemarker" level="error" additivity="false"><!-- spring -->
+            <appender-ref ref="E"/>
+        </logger>
+        <logger name="com.opensymphony" level="error" additivity="false"><!-- xwork -->
+            <appender-ref ref="E"/>
+        </logger>
+        <root level="error">
+            <AppenderRef ref="D"/>
+            <AppenderRef ref="stdout"/>
+            <AppenderRef ref="I"/>
+            <AppenderRef ref="E"/>
+        </root>
+    </loggers>
+</configuration>

@@ -1,0 +1,208 @@
+a{
+    color:#000000;
+    padding:6px 0px;
+}
+a:focus{
+    color:#3c8dbc;
+}
+.close-tab {
+    font-size: 14px;   
+    padding:3px;   
+    /*z-index: 9040;/!*小于模态9050，大于header9030 *!/*/
+    z-index: 1040; /*不大于全屏div的zindex */
+    cursor: pointer;
+    color: #94A6B0;
+    position: absolute;
+    top:7px;
+    right:10px;
+}
+.liDiv{
+    position:relative;
+    height:32px;
+}
+.topbar-collapse {
+    float:right;
+}
+.liTab{
+    border-radius: 50px 0 0 50px;
+    z-index: 1;
+    position:relative;
+}
+.tab-title{
+    line-height:32px;
+    font-family:'微软雅黑 Regular', '微软雅黑',sans-serif;
+    font-size:16px;
+    color:#494848;
+    padding-left:8px;
+    padding-right:2px;
+}
+.nav-tabs img{
+    width:15px;
+    height:10px;
+    border:0;
+    padding-left:2px;
+}
+.tabdrop{
+    height:32px;
+}
+.tabdrop>a{
+    height:32px;
+}
+.tabdrop>a>i{
+    top:-5px;
+}
+.caret{
+    display:inline;
+    position:relative;
+    top:5px;
+}
+
+.tab_pr{
+    background:url("../../img/home/icon_grgzt.png") no-repeat;
+    width:15px;
+    height:10px;
+}
+.iframeClass {
+    z-index: 1;
+    visibility: inherit;
+    width: 100%;
+    frameborder: 'no';
+    /*border: 0;拖拽的话，右边必须有border,左边必须没有border,左边有border的话,给iframe的body加左边框*/
+    border-top:0;
+    border-left:1px solid #ddd;
+    border-bottom:0;
+    marginwidth: 0;
+    marginheight: 0;
+    scrolling-x: 'no';
+    scrolling-y: auto;
+    allowtransparency: true;
+}
+.tabBar{
+  top:0px;
+  border-radius: 50px 0 0 50px;
+  position: relative;
+  padding: 15px 5px;
+  margin: 0 0 0px 0px;
+  min-width: 80px;
+  height: 40px;
+  text-align: center;
+  color: #666;
+  border: 1px solid #ddd;
+  background-color: #f4f4f4;
+  font-size: 12px;
+  z-index: 10;
+}
+#tab-drop-menu{
+    background-color:transparent;
+    border:0;
+}
+#tab-drop-menu>.active>a, #tab-drop-menu>.active>a:focus, #tab-drop-menu>.active>a:hover{
+    background-color:#000000;
+}
+#tab-drop-menu li a{
+    /*padding: 10px 15px;菜单下拉框字换行*/
+}
+#tab-drop-toggle{
+    cursor:pointer;
+}
+#tabs>.active>a{
+    color:#3c8dbc;
+}
+.tab-backImg-focus{
+    list-style:none;
+    float:left;
+    color:#fff;
+    z-index:20;
+}
+.tab-backImg-blur{
+    list-style:none;
+    float:left;
+    color:#626262;
+}
+.tab-backImg-hover{
+    list-style:none;
+    float:left;
+    color:#016fb7;
+}
+#tabs .active .tab-backImg-first, #tabs .active .tab-backImg-third {
+    z-index: 1001;
+}
+.tab-border{
+	margin-top:1px;
+}
+.tab-backImg-home{
+    padding-left:15px;
+    padding-right:10px;
+    line-height:31px;
+    text-align:center;
+    height:31px;
+    width:auto;
+    list-style:none;
+    background-repeat:repeat-x;
+    border-left:1px solid #ddd;
+    border-top:1px solid #ddd;
+    background-color:#fff;
+    display:inline;
+    margin-left:40px;
+    position:relative;
+}
+.tab-backImg-first{
+    margin-left:-23px;
+    height:31px;
+    width:23px;
+    list-style:none;
+    background:url('../../img/home/tab_cut.png') no-repeat 0px 1px;
+    display:inline;
+    position:relative;
+}
+.tab-backImg-second{
+    position:relative;
+    z-index:100;
+    width:auto;
+    min-width:100px;
+    padding-right:10px;
+    line-height:31px;
+    height:31px;
+    list-style:none;
+    background:repeat-x 0px 0px;
+    border-top:1px solid #ddd;
+    background-color:#fff;
+    text-align:center;
+    display:inline;
+}
+.tab-backImg-third{
+    height:31px;
+    width:17px;
+    list-style:none;
+    background:url('../../img/home/tab_cut.png') no-repeat -118px 1px;
+    display:inline;
+    z-index:99;
+    position:relative;
+}
+
+.tab-backImg-first-menu{
+
+}
+.tab-backImg-second-menu{
+    width:auto;
+    min-width:180px;
+    padding-right:5px;
+    line-height:31px;
+    height:31px;
+    list-style:none;
+    background:repeat-x 0px 0px;
+    border:1px solid #ddd;
+    background-color:#fff;
+    text-align:center;
+    display:inline;
+}
+.tab-backImg-third-menu{
+    list-style:none;
+    border:1px solid #ddd;
+}
+#alarm-cnt{
+    position:absolute;
+    display:none;
+    padding:2px 5px;
+    background-color:red;
+}
