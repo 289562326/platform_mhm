@@ -9,6 +9,13 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+	<listener>
+		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener>
+	<!-- 自定义 -->
+	<listener>
+		<listener-class>com.mhm.framework.listener.AppContextListener</listener-class>
+	</listener>
 
 	<!-- log4j2 -->
 	<listener>
